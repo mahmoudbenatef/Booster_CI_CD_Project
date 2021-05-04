@@ -14,7 +14,6 @@ pipeline {
                 sh """
 		docker build . -t atef/django_cicd:1.0
                 docker login -u ${myusername}  -p ${mypass}
-                docker logout
                 docker push mahmoud/app:1.0
                 """
         }
