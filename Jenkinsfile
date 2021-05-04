@@ -9,12 +9,21 @@ pipeline {
         }
         stage('CI') {
             steps {
-                sh 'docker build . -t atef/django_cicd:1.0'
+
+                     withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'mypass', usernameVariable: 'myusername')]) {
+                sh """
+		docker build . -t atef/django_cicd:1.0
+                docker login -u ${myusername}  -p ${mypass}
+                docker logout
+                docker push mahmoud/app:1.0
+                """
+        }
             }
         }
         stage('CD') {
             steps {
                 sh 'docker run -d -p 8000:8000 atef/django_cicd:1.0'
+                
             }
             
             post{
