@@ -13,6 +13,7 @@ pipeline {
                      withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'mypass', usernameVariable: 'myusername')]) {
                 sh """
 		docker build . -t atef/django_cicd:1.0
+		docker logout
                 docker login -u ${myusername}  -p ${mypass}
                 docker push mahmoud/app:1.0
                 """
